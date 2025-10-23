@@ -1,0 +1,518 @@
+<index html>
+  <html lang="vi">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Thời Khóa Biểu</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      />
+      <style>
+        body {
+          font-family: "Roboto", Arial, sans-serif;
+          background: #e6f7ff;
+          margin: 0;
+          padding: 0;
+          color: #222;
+        }
+        header {
+          background: linear-gradient(90deg, #2d99e7 0%, #7ee8fa 100%);
+          padding: 18px 0 10px 0;
+          text-align: center;
+          color: #fff;
+          box-shadow: 0 2px 8px rgba(45, 153, 231, 0.1);
+        }
+        h1 {
+          font-size: 1.5rem;
+          font-weight: bold;
+          letter-spacing: 2px;
+          margin-bottom: 4px;
+          text-shadow: 0 2px 4px #7ee8fa;
+        }
+        main {
+          max-width: 600px;
+          margin: 20px auto;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 2px 16px rgba(45, 153, 231, 0.14);
+          padding: 18px 10px;
+        }
+        form {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 14px;
+          align-items: center;
+          justify-content: center;
+        }
+        input,
+        select {
+          padding: 7px 8px;
+          font-size: 0.98rem;
+          border: 1.2px solid #2d99e7;
+          border-radius: 7px;
+          margin: 0 1px;
+          background: #f2fcff;
+          color: #222;
+          transition: border 0.2s;
+          width: 120px;
+        }
+        input:focus,
+        select:focus {
+          border: 2px solid #1864ab;
+          outline: none;
+        }
+        button {
+          padding: 8px 12px;
+          background: linear-gradient(90deg, #2d99e7 60%, #7ee8fa 100%);
+          color: #fff;
+          border: none;
+          border-radius: 7px;
+          font-size: 1rem;
+          font-weight: bold;
+          cursor: pointer;
+          box-shadow: 0 2px 8px rgba(45, 153, 231, 0.11);
+          transition: background 0.2s;
+          min-width: 95px;
+        }
+        button:hover {
+          background: linear-gradient(90deg, #1864ab 60%, #2d99e7 100%);
+        }
+        .schedule-table-container {
+          overflow-x: auto;
+        }
+        .schedule-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 10px;
+          table-layout: fixed;
+        }
+        th,
+        td {
+          border: 1px solid #2d99e7;
+          padding: 8px 2px;
+          text-align: center;
+          font-size: 0.93rem;
+          background: #fafdff;
+          vertical-align: top;
+          width: 13%;
+        }
+        th {
+          background: linear-gradient(90deg, #2d99e7 60%, #7ee8fa 100%);
+          color: #fff;
+          font-size: 1em;
+          font-weight: bold;
+        }
+        .lesson-box {
+          background: #e7f8ff;
+          border-radius: 7px;
+          padding: 7px 3px 5px 3px;
+          margin-bottom: 4px;
+          position: relative;
+          box-shadow: 0 2px 7px rgba(45, 153, 231, 0.07);
+          border: 1px solid #cbeffd;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-width: 80px;
+          max-width: 110px;
+          margin: 0 auto;
+        }
+        .lesson-title {
+          color: #2d99e7;
+          font-weight: bold;
+          font-size: 0.99em;
+          margin-bottom: 2px;
+          word-break: break-word;
+        }
+        .lesson-time {
+          font-size: 0.89em;
+          color: #1864ab;
+          margin-bottom: 2px;
+        }
+        .done-checkbox {
+          transform: scale(1.08);
+          margin-right: 3px;
+          accent-color: #2d99e7;
+        }
+        .lesson-actions {
+          display: flex;
+          gap: 4px;
+          margin-top: 4px;
+          justify-content: center;
+        }
+        .icon-btn {
+          background: #e6f7ff;
+          color: #1864ab;
+          border: 1.2px solid #2d99e7;
+          border-radius: 5px;
+          padding: 2px 6px;
+          font-size: 0.95em;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s;
+          box-shadow: 0 2px 6px rgba(45, 153, 231, 0.08);
+          display: inline-flex;
+          align-items: center;
+          gap: 2px;
+          min-width: 25px;
+          min-height: 25px;
+        }
+        .icon-btn:hover {
+          background: #2d99e7;
+          color: #fff;
+          border-color: #1864ab;
+        }
+        .effect {
+          display: none;
+          margin: 7px 0;
+          font-size: 1.07rem;
+          text-align: center;
+          color: #2d99e7;
+          animation: pop 0.6s ease;
+        }
+        @keyframes pop {
+          0% {
+            transform: scale(0.8);
+            opacity: 0.5;
+          }
+          60% {
+            transform: scale(1.15);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .badge {
+          display: inline-block;
+          background: #7ee8fa;
+          color: #2d99e7;
+          border-radius: 50%;
+          padding: 7px;
+          font-size: 1.05rem;
+          margin: 0 2px;
+          box-shadow: 0 2px 8px rgba(45, 153, 231, 0.09);
+          vertical-align: middle;
+          border: 1.2px solid #2d99e7;
+        }
+        .praise {
+          margin-top: 4px;
+          color: #2d99e7;
+          font-weight: bold;
+          text-align: center;
+          font-size: 0.98rem;
+        }
+        .edit-form {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          background: #e6f7ff;
+          padding: 11px;
+          border-radius: 10px;
+          border: 1.5px solid #2d99e7;
+          margin-bottom: 12px;
+          max-width: 300px;
+          margin-left: auto;
+          margin-right: auto;
+          box-shadow: 0 2px 7px rgba(45, 153, 231, 0.09);
+        }
+        .edit-form label {
+          color: #1864ab;
+          font-weight: bold;
+          font-size: 0.99em;
+        }
+        .edit-form input,
+        .edit-form select {
+          background: #fff;
+          border: 1.2px solid #2d99e7;
+          color: #1864ab;
+          padding: 7px 9px;
+          border-radius: 6px;
+          font-size: 0.98em;
+        }
+        .edit-actions {
+          text-align: right;
+          margin-top: 2px;
+          display: flex;
+          gap: 8px;
+          justify-content: flex-end;
+        }
+        .edit-actions button {
+          min-width: 50px;
+          font-size: 0.97em;
+          padding: 2px 9px;
+        }
+        @media (max-width: 700px) {
+          main {
+            padding: 7px 1px;
+          }
+          .schedule-table th,
+          .schedule-table td {
+            font-size: 0.87rem;
+          }
+          .lesson-box {
+            padding: 4px 1px;
+          }
+          .icon-btn {
+            padding: 2px 3px;
+          }
+          th,
+          td {
+            padding: 4px 1px;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <header>
+        <h1>THỜI KHÓA BIỂU</h1>
+      </header>
+      <main>
+        <form id="scheduleForm" onsubmit="return handleSchedule(event)">
+          <input type="text" id="subject" placeholder="Môn học" required />
+          <select id="weekday" required>
+            <option value="" disabled selected>Thứ</option>
+            <option>Thứ 2</option>
+            <option>Thứ 3</option>
+            <option>Thứ 4</option>
+            <option>Thứ 5</option>
+            <option>Thứ 6</option>
+            <option>Thứ 7</option>
+            <option>Chủ nhật</option>
+          </select>
+          <input
+            type="text"
+            id="time"
+            placeholder="Giờ học (VD: 07:00 - 09:00)"
+            required
+          />
+          <button type="submit">Thêm</button>
+        </form>
+
+        <div id="editFormContainer"></div>
+
+        <div
+          class="schedule-section"
+          id="scheduleSection"
+          style="display: none"
+        >
+          <div class="schedule-table-container">
+            <table class="schedule-table" id="scheduleTable">
+              <thead>
+                <tr>
+                  <th>Thứ 2</th>
+                  <th>Thứ 3</th>
+                  <th>Thứ 4</th>
+                  <th>Thứ 5</th>
+                  <th>Thứ 6</th>
+                  <th>Thứ 7</th>
+                  <th>Chủ nhật</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Thời khóa biểu sẽ được tạo động vào đây -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="effect" id="effect">🎉 Hoàn thành tiết học! 🎉</div>
+        <div style="text-align: center; margin: 6px 0" id="badgeSection"></div>
+        <div class="praise" id="praise"></div>
+      </main>
+      <script>
+        const weekdaysOrder = [
+          "Thứ 2",
+          "Thứ 3",
+          "Thứ 4",
+          "Thứ 5",
+          "Thứ 6",
+          "Thứ 7",
+          "Chủ nhật",
+        ];
+        const schedules = {
+          "Thứ 2": [],
+          "Thứ 3": [],
+          "Thứ 4": [],
+          "Thứ 5": [],
+          "Thứ 6": [],
+          "Thứ 7": [],
+          "Chủ nhật": [],
+        };
+        const praises = [
+          "Bạn học rất chăm chỉ!",
+          "Tiến bộ từng ngày!",
+          "Tinh thần học tập tuyệt vời!",
+          "Bạn xứng đáng điểm 10!",
+          "Xuất sắc! Tiếp tục nhé!",
+          "Hôm nay bạn học rất tốt!",
+          "Bạn là siêu nhân!",
+          "Học hôm nay, thành công ngày mai!",
+        ];
+        let editInfo = null;
+
+        // Chuyển giờ sang số giây để so sánh và sắp xếp logic từ 0h -> 23h59p59s
+        function timeToSeconds(timeStr) {
+          // Trích xuất giờ đầu tiên trong khoảng thời gian VD: "07:00 - 09:00" -> 07:00
+          let m = timeStr.match(/(\d{1,2}):(\d{2})/);
+          if (!m) return 0;
+          return parseInt(m[1]) * 3600 + parseInt(m[2]) * 60;
+        }
+
+        function handleSchedule(e) {
+          e.preventDefault();
+          const subject = document.getElementById("subject").value.trim();
+          const weekday = document.getElementById("weekday").value;
+          const time = document.getElementById("time").value.trim();
+          if (!subject || !weekday || !time) return false;
+
+          schedules[weekday].push({ subject, time, done: false });
+          renderSchedule();
+          document.getElementById("scheduleSection").style.display = "";
+          document.getElementById("subject").value = "";
+          document.getElementById("weekday").value = "";
+          document.getElementById("time").value = "";
+          return false;
+        }
+
+        function renderSchedule() {
+          const tbody = document
+            .getElementById("scheduleTable")
+            .querySelector("tbody");
+          tbody.innerHTML = "";
+          let maxLessons = 0;
+          weekdaysOrder.forEach((day) => {
+            // Sắp xếp các tiết theo thời gian logic
+            schedules[day].sort(
+              (a, b) => timeToSeconds(a.time) - timeToSeconds(b.time)
+            );
+            if (schedules[day].length > maxLessons)
+              maxLessons = schedules[day].length;
+          });
+          for (let i = 0; i < maxLessons; i++) {
+            const row = document.createElement("tr");
+            weekdaysOrder.forEach((day) => {
+              const lesson = schedules[day][i];
+              const td = document.createElement("td");
+              if (lesson) {
+                td.innerHTML = `
+              <div class="lesson-box">
+                <span class="lesson-title">${lesson.subject}</span>
+                <span class="lesson-time">${lesson.time}</span>
+                <input type="checkbox" class="done-checkbox" ${
+                  lesson.done ? "checked" : ""
+                } 
+                  onclick="markDone('${day}',${i})"/>
+                <div class="lesson-actions">
+                  <button class="icon-btn" title="Sửa" onclick="editLesson('${day}',${i})"><i class="fa fa-edit"></i></button>
+                  <button class="icon-btn" title="Xóa" onclick="deleteLesson('${day}',${i})"><i class="fa fa-trash"></i></button>
+                </div>
+              </div>
+            `;
+              } else {
+                td.innerHTML = "";
+              }
+              row.appendChild(td);
+            });
+            tbody.appendChild(row);
+          }
+        }
+
+        window.deleteLesson = function (day, idx) {
+          schedules[day].splice(idx, 1);
+          renderSchedule();
+        };
+
+        window.editLesson = function (day, idx) {
+          editInfo = { day, idx };
+          const lesson = schedules[day][idx];
+          showEditForm(day, idx, lesson.subject, lesson.time);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        };
+
+        function showEditForm(day, idx, subject, time) {
+          const container = document.getElementById("editFormContainer");
+          container.innerHTML = `
+        <form class="edit-form" onsubmit="return submitEdit(event)">
+          <label>Sửa môn học</label>
+          <input type="text" id="editSubject" value="${subject}" required>
+          <select id="editWeekday" required>
+            ${weekdaysOrder
+              .map(
+                (d) =>
+                  `<option value="${d}" ${
+                    d === day ? "selected" : ""
+                  }>${d}</option>`
+              )
+              .join("")}
+          </select>
+          <input type="text" id="editTime" value="${time}" required>
+          <div class="edit-actions">
+            <button type="submit" class="icon-btn"><i class="fa fa-save"></i></button>
+            <button type="button" class="icon-btn" onclick="cancelEdit()"><i class="fa fa-times"></i></button>
+          </div>
+        </form>
+      `;
+        }
+
+        window.cancelEdit = function () {
+          document.getElementById("editFormContainer").innerHTML = "";
+          editInfo = null;
+        };
+
+        window.submitEdit = function (e) {
+          e.preventDefault();
+          if (!editInfo) return false;
+          const { day, idx } = editInfo;
+          const newSubject = document
+            .getElementById("editSubject")
+            .value.trim();
+          const newWeekday = document.getElementById("editWeekday").value;
+          const newTime = document.getElementById("editTime").value.trim();
+          const lesson = schedules[day][idx];
+          schedules[day].splice(idx, 1);
+          schedules[newWeekday].push({
+            subject: newSubject,
+            time: newTime,
+            done: lesson.done,
+          });
+          renderSchedule();
+          document.getElementById("editFormContainer").innerHTML = "";
+          editInfo = null;
+          return false;
+        };
+
+        window.markDone = function (day, idx) {
+          schedules[day][idx].done = !schedules[day][idx].done;
+          renderSchedule();
+          if (schedules[day][idx].done) {
+            showEffect();
+            showBadge();
+            showPraise();
+          }
+        };
+
+        function showEffect() {
+          const el = document.getElementById("effect");
+          el.style.display = "block";
+          setTimeout(() => (el.style.display = "none"), 1200);
+        }
+
+        function showBadge() {
+          document.getElementById(
+            "badgeSection"
+          ).innerHTML = `<span class="badge" title="Huy chương chăm chỉ">🏅</span>
+         <span class="badge" title="Huy chương thông minh">💡</span>
+         <span class="badge" title="Huy chương nỗ lực">🎖️</span>`;
+        }
+
+        function showPraise() {
+          const txt = praises[Math.floor(Math.random() * praises.length)];
+          document.getElementById("praise").textContent = txt;
+        }
+      </script>
+    </body>
+  </html></index
+>
